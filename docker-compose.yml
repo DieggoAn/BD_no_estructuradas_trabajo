@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  comerciotech-nosql:
+    image: mongo:7.0
+    container_name: comerciotech_nosql
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS}
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./scripts/init-rbac.js:/docker-entrypoint-initdb.d/init-rbac.js:ro
+    command: [ "--auth" ]
+
+volumes:
+  mongo_data:
