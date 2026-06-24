@@ -32,4 +32,37 @@ db.createCollection("productos", {
 db.productos.createIndex({ sku: 1 }, { unique: true });
 db.productos.createIndex({ categoria: 1, precio: 1 });
 
+//Carrito
+
+db.createCollection("carritos", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "usuario_id", "estado", "items", "actualizado_en" ],
+         properties: {
+            usuario_id: { bsonType: "string" },
+            estado: { bsonType: "string", enum: [ "activo", "abandonado", "convertido" ] },
+            actualizado_en: { bsonType: "date" },
+            items: {
+               bsonType: "array",
+               items: {
+                  bsonType: "object",
+                  required: [ "sku", "cantidad", "precio_capturado", "añadido_en" ],
+                  properties: {
+                     sku: { bsonType: "string" },
+                     cantidad: { bsonType: "int", minimum: 1 },
+                     precio_capturado: { bsonType: "double", minimum: 0.0 },
+                     añadido_en: { bsonType: "date" }
+                  }
+               }
+            }
+         }
+      }
+   }
+});
+
+// Crear índices de alto rendimiento para el carrito
+db.carritos.createIndex({ usuario_id: 1, estado: 1 }, { unique: true });
+db.carritos.createIndex({ actualizado_en: 1 }, { expireAfterSeconds: 1209600 });
+
 print("🔒 ¡Entorno de base de datos inicializado y blindado correctamente!");
