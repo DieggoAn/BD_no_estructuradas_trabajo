@@ -15,5 +15,12 @@ services:
       - ./scripts/init-rbac.js:/docker-entrypoint-initdb.d/init-rbac.js:ro
     command: [ "--auth" ]
 
+    comerciotech_app:
+      build: .
+      container_name: comerciotech_app
+      depends_on:
+        - comerciotech_nosql
+      restart: "no" # Se ejecuta, hace las pruebas del CRUD y se detiene solo
+
 volumes:
   mongo_data:

@@ -3,9 +3,9 @@ from pymongo import MongoClient
 
 # En producción leerías esto con 'os.getenv' desde tu archivo .env
 # Para tu prueba local/Docker, configuramos la cadena oficial con tus credenciales:
-USER = "srv_app_comerciotech"
-PASS = "ComercioTech2026"
-HOST = "localhost"  # Cambiar por 'comerciotech_nosql' si metes Python dentro de Docker
+USER = "cybersec_admin"
+PASS = "Mongo30"
+HOST = "comerciotech_nosql"  # Cambiar por 'comerciotech_nosql' si metes Python dentro de Docker
 PORT = "27017"
 AUTH_DB = "admin"
 DB_NAME = "comerciotech_catalogo"
