@@ -12,7 +12,7 @@ services:
       - "127.0.0.1:27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./scripts/init-rbac.js:/docker-entrypoint-initdb.d/init-rbac.js:ro
+      - ./scripts:/docker-entrypoint-initdb.d:ro  # 🚀 CAMBIO: Montamos la carpeta completa 'scripts'
     command: [ "--auth" ]
 
   comerciotech-sql:
