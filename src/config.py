@@ -4,7 +4,7 @@ import mysql.connector
 
 # --- CONFIGURACIÓN MONGODB ---
 MONGO_USER = "srv_app_comerciotech"  # Usamos el usuario con privilegio mínimo de tu RBAC
-MONGO_PASS = "Python1!"
+MONGO_PASS = "Mongo30"
 MONGO_HOST = "comerciotech_nosql"
 MONGO_PORT = "27017"
 MONGO_DB = "comerciotech_catalogo"
