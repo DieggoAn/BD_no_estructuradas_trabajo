@@ -73,7 +73,9 @@ GRANT ALL PRIVILEGES ON comerciotech_financiero.* TO 'admin_financiero'@'%';
 
 -- Usuario de Aplicación (Python/Backend) - Privilegio mínimo (CRUD de operaciones)
 CREATE USER IF NOT EXISTS 'srv_app_sql'@'%' IDENTIFIED BY 'AppSqlPass2026*';
-GRANT SELECT, INSERT, UPDATE ON comerciotech_financiero.* TO 'srv_app_sql'@'%';
+GRANT SELECT, INSERT, UPDATE, DELETE ON comerciotech_financiero.* TO 'srv_app_sql'@'%';
+
+FLUSH PRIVILEGES;
 
 -- Usuario de Auditoría Contable - Solo lectura (Reporting corporativo)
 CREATE USER IF NOT EXISTS 'auditor_contable'@'%' IDENTIFIED BY 'AuditTech2026*';
