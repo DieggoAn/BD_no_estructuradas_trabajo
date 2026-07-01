@@ -1,14 +1,16 @@
-// Cambiar a la base de datos del proyecto
-use comerciotech_catalogo;
+// Forzamos la creación del usuario en la base de datos 'admin' (Foco de autenticación de Docker)
+use admin;
 
-// Crear el usuario con privilegio mínimo para la aplicación de Python
 db.createUser({
   user: "srv_app_comerciotech",
   pwd: "Python1!",
   roles: [
-    { role: "readWrite", db: "comerciotech_catalogo" }
+    { role: "readWrite", db: "comerciotech_catalogo" } // El usuario se guarda en admin, pero solo puede leer/escribir en tu catálogo
   ]
 });
+
+// Cambiamos a la base de datos del proyecto para estructurar las colecciones
+use comerciotech_catalogo;
 
 // Crear la colección de productos con validación estricta de tipos de datos
 db.createCollection("productos", {
@@ -28,12 +30,10 @@ db.createCollection("productos", {
    }
 });
 
-// Crear índices de alto rendimiento para búsquedas inferiores a 50ms
 db.productos.createIndex({ sku: 1 }, { unique: true });
 db.productos.createIndex({ categoria: 1, precio: 1 });
 
-//Carrito
-
+// Carrito
 db.createCollection("carritos", {
    validator: {
       $jsonSchema: {
@@ -61,7 +61,6 @@ db.createCollection("carritos", {
    }
 });
 
-// Crear índices de alto rendimiento para el carrito
 db.carritos.createIndex({ usuario_id: 1, estado: 1 }, { unique: true });
 db.carritos.createIndex({ actualizado_en: 1 }, { expireAfterSeconds: 1209600 });
 
