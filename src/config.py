@@ -3,13 +3,13 @@ from pymongo import MongoClient
 import mysql.connector
 
 # --- CONFIGURACIÓN MONGODB ---
-MONGO_USER = "srv_app_comerciotech"  # Usamos el usuario con privilegio mínimo de tu RBAC
-MONGO_PASS = "Python1!"
+MONGO_USER = "srv_app_comerciotech"  
+MONGO_PASS = "Python1!"              # <-- CORREGIDO: Coincide con init_rbac.js
 MONGO_HOST = "comerciotech_nosql"
 MONGO_PORT = "27017"
 MONGO_DB = "comerciotech_catalogo"
 
-# Modifica ESTA línea exacta en tu src/config.py:
+# CORREGIDO: Apunta al final a authSource=admin
 MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}?authSource=admin"
 
 # --- CONFIGURACIÓN MYSQL ---
