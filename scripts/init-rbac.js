@@ -1,19 +1,18 @@
-// Forzamos la creación del usuario en la base de datos 'admin' (Foco de autenticación de Docker)
-use admin;
+// OJO: NO uses "use admin;" ni "use comerciotech_catalogo;". 
+// Dejamos que Docker maneje el contexto inicial.
 
-db.createUser({
+db.getSiblingDB('admin').createUser({
   user: "srv_app_comerciotech",
   pwd: "Python1!",
   roles: [
-    { role: "readWrite", db: "comerciotech_catalogo" } // El usuario se guarda en admin, pero solo puede leer/escribir en tu catálogo
+    { role: "readWrite", db: "comerciotech_catalogo" }
   ]
 });
 
-// Cambiamos a la base de datos del proyecto para estructurar las colecciones
-use comerciotech_catalogo;
+// Ahora creamos las colecciones directamente en la BD del proyecto
+var dbProyecto = db.getSiblingDB('comerciotech_catalogo');
 
-// Crear la colección de productos con validación estricta de tipos de datos
-db.createCollection("productos", {
+dbProyecto.createCollection("productos", {
    validator: {
       $jsonSchema: {
          bsonType: "object",
@@ -30,11 +29,10 @@ db.createCollection("productos", {
    }
 });
 
-db.productos.createIndex({ sku: 1 }, { unique: true });
-db.productos.createIndex({ categoria: 1, precio: 1 });
+dbProyecto.productos.createIndex({ sku: 1 }, { unique: true });
+dbProyecto.productos.createIndex({ categoria: 1, precio: 1 });
 
-// Carrito
-db.createCollection("carritos", {
+dbProyecto.createCollection("carritos", {
    validator: {
       $jsonSchema: {
          bsonType: "object",
@@ -61,7 +59,7 @@ db.createCollection("carritos", {
    }
 });
 
-db.carritos.createIndex({ usuario_id: 1, estado: 1 }, { unique: true });
-db.carritos.createIndex({ actualizado_en: 1 }, { expireAfterSeconds: 1209600 });
+dbProyecto.carritos.createIndex({ usuario_id: 1, estado: 1 }, { unique: true });
+dbProyecto.carritos.createIndex({ actualizado_en: 1 }, { expireAfterSeconds: 1209600 });
 
-print("🔒 ¡Entorno de base de datos inicializado y blindado correctamente!");
+print("🔒 ¡Entorno NoSQL inicializado con db.getSiblingDB de forma segura!");
