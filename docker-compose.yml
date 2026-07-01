@@ -12,7 +12,7 @@ services:
       - "127.0.0.1:27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./scripts:/docker-entrypoint-initdb.d:ro  # 🚀 CAMBIO: Montamos la carpeta completa 'scripts'
+      - ./scripts-mongo:/docker-entrypoint-initdb.d:ro  # 🚀 CORREGIDO: Solo archivos JS
     command: [ "--auth" ]
 
   comerciotech-sql:
@@ -25,8 +25,7 @@ services:
       - "127.0.0.1:3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./scripts/initmysql.sql:/docker-entrypoint-initdb.d/initmysql.sql:ro
-
+      - ./scripts-sql:/docker-entrypoint-initdb.d:ro    # 🚀 CORREGIDO: Solo archivos SQL
   comerciotech_app:
     build: .
     container_name: comerciotech_app
