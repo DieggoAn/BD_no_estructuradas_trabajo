@@ -4,11 +4,11 @@ from pymongo import MongoClient
 import mysql.connector
 
 # --- CONFIGURACIÓN MONGODB ---
-MONGO_USER = "srv_app_comerciotech"  
-MONGO_PASS = "Python1!"              
+MONGO_USER = "cybersec_admin"        # 🚀 CORREGIDO
+MONGO_PASS = "Mongo30"               # 🚀 CORREGIDO
 MONGO_HOST = "comerciotech_nosql"
 MONGO_PORT = "27017"
-MONGO_DB = "comerciotech_catalogo"
+MONGO_DB = "admin"                   # 🚀 CORREGIDO (Apuntamos a la BD raíz)
 
 MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}?authSource=admin"
 
@@ -16,7 +16,7 @@ MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MON
 SQL_USER = "srv_app_sql"
 SQL_PASS = "AppSqlPass2026*"
 SQL_HOST = "comerciotech_sql"
-SQL_DB = "comerciotech_financiero"
+SQL_DB = "comerciotech_financiero"   # 🚀 Ya existe adentro
 
 # Conexión Segura con Reintentos a MongoDB
 print("⏳ Esperando inicialización segura de MongoDB...")
