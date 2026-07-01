@@ -36,16 +36,6 @@ services:
     restart: "no"
     stdin_open: true
     tty: true
-    # 🚀 SOLUCIÓN: Esperar a que los puertos respondan antes de ejecutar crud.py
-    command: >
-      sh -c "
-      echo '⏳ Esperando que MongoDB (27017) esté listo...';
-      while ! nc -z comerciotech_nosql 27017; do sleep 1; done;
-      echo '⏳ Esperando que MySQL (3306) esté listo...';
-      while ! nc -z comerciotech_sql 3306; do sleep 1; done;
-      echo '🚀 Ambos motores listos. Iniciando Sistema Políglota...';
-      python crud.py
-      "
 volumes:
   mongo_data:
   mysql_data:

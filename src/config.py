@@ -1,15 +1,15 @@
 import os
+import time  # <-- AGREGADO
 from pymongo import MongoClient
 import mysql.connector
 
 # --- CONFIGURACIÓN MONGODB ---
 MONGO_USER = "srv_app_comerciotech"  
-MONGO_PASS = "Python1!"              # <-- CORREGIDO: Coincide con init_rbac.js
+MONGO_PASS = "Python1!"              
 MONGO_HOST = "comerciotech_nosql"
 MONGO_PORT = "27017"
 MONGO_DB = "comerciotech_catalogo"
 
-# CORREGIDO: Apunta al final a authSource=admin
 MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}?authSource=admin"
 
 # --- CONFIGURACIÓN MYSQL ---
@@ -18,25 +18,31 @@ SQL_PASS = "AppSqlPass2026*"
 SQL_HOST = "comerciotech_sql"
 SQL_DB = "comerciotech_financiero"
 
-# Conexión a MongoDB
-try:
-    mongo_client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=5000)
-    mongo_db = mongo_client[MONGO_DB]
-    mongo_client.server_info()
-    print("🔒 Conexión segura establecida exitosamente con MongoDB NoSQL.")
-except Exception as e:
-    print(f"❌ Error crítico en MongoDB: {e}")
-    exit(1)
+# Conexión Segura con Reintentos a MongoDB
+print("⏳ Esperando inicialización segura de MongoDB...")
+while True:
+    try:
+        mongo_client = MongoClient(MONGO_URI, serverSelectionTimeoutMS=2000)
+        mongo_db = mongo_client[MONGO_DB]
+        mongo_client.server_info()
+        print("🔒 Conexión segura establecida exitosamente con MongoDB NoSQL.")
+        break
+    except Exception:
+        print("... MongoDB inicializando. Reintentando en 2 segundos ...")
+        time.sleep(2)
 
-# Conexión a MySQL
-try:
-    sql_conn = mysql.connector.connect(
-        host=SQL_HOST,
-        user=SQL_USER,
-        password=SQL_PASS,
-        database=SQL_DB
-    )
-    print("🔒 Conexión segura establecida exitosamente con MySQL SQL.")
-except Exception as e:
-    print(f"❌ Error crítico en MySQL: {e}")
-    exit(1)
+# Conexión Segura con Reintentos a MySQL
+print("⏳ Esperando inicialización segura de MySQL...")
+while True:
+    try:
+        sql_conn = mysql.connector.connect(
+            host=SQL_HOST,
+            user=SQL_USER,
+            password=SQL_PASS,
+            database=SQL_DB
+        )
+        print("🔒 Conexión segura establecida exitosamente con MySQL SQL.")
+        break
+    except Exception:
+        print("... MySQL inicializando. Reintentando en 2 segundos ...")
+        time.sleep(2)
