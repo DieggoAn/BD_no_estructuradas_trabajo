@@ -4,12 +4,13 @@ import mysql.connector
 
 # --- CONFIGURACIÓN MONGODB ---
 MONGO_USER = "srv_app_comerciotech"  # Usamos el usuario con privilegio mínimo de tu RBAC
-MONGO_PASS = "Mongo30"
+MONGO_PASS = "Python1!"
 MONGO_HOST = "comerciotech_nosql"
 MONGO_PORT = "27017"
 MONGO_DB = "comerciotech_catalogo"
 
-MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}?authSource={MONGO_DB}"
+# Modifica ESTA línea exacta en tu src/config.py:
+MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}?authSource=admin"
 
 # --- CONFIGURACIÓN MYSQL ---
 SQL_USER = "srv_app_sql"
