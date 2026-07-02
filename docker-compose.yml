@@ -14,6 +14,9 @@ services:
       - mongo_data:/data/db
       - ./scripts-mongo:/docker-entrypoint-initdb.d:ro
     command: [ "--auth" ]
+    # 🔌 Vinculamos el contenedor a la red común
+    networks:
+      - comerciotech_net
 
   comerciotech-sql:
     image: mysql:8.0
@@ -26,6 +29,9 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
       - ./scripts-sql:/docker-entrypoint-initdb.d:ro
+    # 🔌 Vinculamos el contenedor a la red común
+    networks:
+      - comerciotech_net
 
   comerciotech_app:
     build: /root/web-comerciotech/
@@ -38,6 +44,14 @@ services:
       - "127.0.0.1:8080:8080"
     stdin_open: true
     tty: true
+    # 🔌 Vinculamos el contenedor a la red común
+    networks:
+      - comerciotech_net
+
+# 🌐 DECLARACIÓN EXPLÍCITA DE LA RED INTERNA
+networks:
+  comerciotech_net:
+    driver: bridge
 
 volumes:
   mongo_data:
