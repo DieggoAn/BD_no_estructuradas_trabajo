@@ -9,10 +9,10 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASS}
     ports:
-      - "127.0.0.1:27017:27017"
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db
-      - ./scripts-mongo:/docker-entrypoint-initdb.d:ro  # 🚀 CORREGIDO: Solo archivos JS
+      - ./scripts-mongo:/docker-entrypoint-initdb.d:ro
     command: [ "--auth" ]
 
   comerciotech-sql:
@@ -22,19 +22,23 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=AdminComercio2026*
     ports:
-      - "127.0.0.1:3306:3306"
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./scripts-sql:/docker-entrypoint-initdb.d:ro    # 🚀 CORREGIDO: Solo archivos SQL
+      - ./scripts-sql:/docker-entrypoint-initdb.d:ro
+
   comerciotech_app:
-    build: .
+    build: /root/web-comerciotech/
     container_name: comerciotech_app
     depends_on:
       - comerciotech-nosql
       - comerciotech-sql
-    restart: "no"
+    restart: always
+    ports:
+      - "127.0.0.1:8080:8080"
     stdin_open: true
     tty: true
+
 volumes:
   mongo_data:
   mysql_data:
